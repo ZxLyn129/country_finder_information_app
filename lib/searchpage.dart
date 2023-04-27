@@ -142,18 +142,24 @@ class _SearchPageState extends State<SearchPage> {
         var parsedJson = json.decode(jsonData);
 
         if (parsedJson.isEmpty) {
+          //did not found the country
           setState(() {
             player.play(AssetSource('audios/fail.mp3'));
+            name = '';
+            surfArea = 0.0;
+            currencyCode = '';
+            currencyName = '';
+            capital = '';
+            population = 0.0;
+            countryCode = '';
             result = "No records found. Please enter again.";
             flagUrl = '';
-            countryCode = '';
           });
           progressDialog.dismiss();
         } else {
           //display the searched country information and flag
-          player.play(AssetSource('audios/success.mp3'));
-
           setState(() {
+            player.play(AssetSource('audios/success.mp3'));
             name = parsedJson[0]["name"];
             surfArea = parsedJson[0]["surface_area"];
             currencyCode = parsedJson[0]["currency"]["code"];
@@ -168,20 +174,34 @@ class _SearchPageState extends State<SearchPage> {
           progressDialog.dismiss();
         }
       } else {
+        //http error
         setState(() {
           player.play(AssetSource('audios/fail.mp3'));
+          name = '';
+          surfArea = 0.0;
+          currencyCode = '';
+          currencyName = '';
+          capital = '';
+          population = 0.0;
+          countryCode = '';
           result = "Error. Please try again.";
           flagUrl = '';
-          countryCode = '';
         });
         progressDialog.dismiss();
       }
     } else {
+      //empty text field
       setState(() {
         player.play(AssetSource('audios/fail.mp3'));
+        name = '';
+        surfArea = 0.0;
+        currencyCode = '';
+        currencyName = '';
+        capital = '';
+        population = 0.0;
+        countryCode = '';
         flagUrl = '';
         result = "No data was entered. Please enter the country name. ";
-        countryCode = '';
       });
     }
   }
