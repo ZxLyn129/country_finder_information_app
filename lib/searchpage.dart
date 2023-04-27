@@ -146,6 +146,7 @@ class _SearchPageState extends State<SearchPage> {
             player.play(AssetSource('audios/fail.mp3'));
             result = "No records found. Please enter again.";
             flagUrl = '';
+            countryCode = '';
           });
           progressDialog.dismiss();
         } else {
@@ -171,6 +172,7 @@ class _SearchPageState extends State<SearchPage> {
           player.play(AssetSource('audios/fail.mp3'));
           result = "Error. Please try again.";
           flagUrl = '';
+          countryCode = '';
         });
         progressDialog.dismiss();
       }
@@ -179,6 +181,7 @@ class _SearchPageState extends State<SearchPage> {
         player.play(AssetSource('audios/fail.mp3'));
         flagUrl = '';
         result = "No data was entered. Please enter the country name. ";
+        countryCode = '';
       });
     }
   }
