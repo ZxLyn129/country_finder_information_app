@@ -150,6 +150,7 @@ class _SearchPageState extends State<SearchPage> {
           });
           progressDialog.dismiss();
         } else {
+          //display the searched country information and flag
           player.play(AssetSource('audios/success.mp3'));
 
           setState(() {
