@@ -155,13 +155,12 @@ class _SearchPageState extends State<SearchPage> {
 
           setState(() {
             name = parsedJson[0]["name"];
-            countryCode = parsedJson[0]["iso2"];
             surfArea = parsedJson[0]["surface_area"];
             currencyCode = parsedJson[0]["currency"]["code"];
             currencyName = parsedJson[0]["currency"]["name"];
             capital = parsedJson[0]["capital"];
             population = parsedJson[0]["population"];
-
+            countryCode = parsedJson[0]["iso2"];
             flagUrl = 'https://flagsapi.com/$countryCode/shiny/64.png';
             result =
                 "This country is call $name and the country code is $countryCode. The surface area of this country is $surfArea km², which has $population people reside there and the capital is $capital. Its currency used is $currencyCode, $currencyName.";
