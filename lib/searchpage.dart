@@ -138,11 +138,12 @@ class _SearchPageState extends State<SearchPage> {
           Uri.parse('https://api.api-ninjas.com/v1/country?name=$country');
       var response = await http.get(url, headers: {'X-Api-Key': apiKey});
       if (response.statusCode == 200) {
+        //success access http
         var jsonData = response.body;
         var parsedJson = json.decode(jsonData);
 
         if (parsedJson.isEmpty) {
-          //did not found the country
+          //did not find the entered text
           setState(() {
             player.play(AssetSource('audios/fail.mp3'));
             name = '';
@@ -158,20 +159,40 @@ class _SearchPageState extends State<SearchPage> {
           progressDialog.dismiss();
         } else {
           //display the searched country information and flag
-          setState(() {
-            player.play(AssetSource('audios/success.mp3'));
-            name = parsedJson[0]["name"];
-            surfArea = parsedJson[0]["surface_area"];
-            currencyCode = parsedJson[0]["currency"]["code"];
-            currencyName = parsedJson[0]["currency"]["name"];
-            capital = parsedJson[0]["capital"];
-            population = parsedJson[0]["population"];
-            countryCode = parsedJson[0]["iso2"];
-            flagUrl = 'https://flagsapi.com/$countryCode/shiny/64.png';
-            result =
-                "This country is call $name and the country code is $countryCode. The surface area of this country is $surfArea km², which has $population people reside there and the capital is $capital. Its currency used is $currencyCode, $currencyName.";
-          });
-          progressDialog.dismiss();
+          name = parsedJson[0]["name"];
+          countryCode = parsedJson[0]["iso2"];
+          if (name.toLowerCase() == country.toLowerCase() ||
+              countryCode.toLowerCase() == country.toLowerCase()) {
+            setState(() {
+              player.play(AssetSource('audios/success.mp3'));
+              //name = parsedJson[0]["name"];
+              surfArea = parsedJson[0]["surface_area"];
+              currencyCode = parsedJson[0]["currency"]["code"];
+              currencyName = parsedJson[0]["currency"]["name"];
+              capital = parsedJson[0]["capital"];
+              population = parsedJson[0]["population"];
+
+              flagUrl = 'https://flagsapi.com/$countryCode/shiny/64.png';
+              result =
+                  "This country is call $name and the country code is $countryCode. The surface area of this country is $surfArea km², which has $population people reside there and the capital is $capital. Its currency used is $currencyCode, $currencyName.";
+            });
+            progressDialog.dismiss();
+          } else {
+            //typo in the country name and country code
+            setState(() {
+              player.play(AssetSource('audios/fail.mp3'));
+              name = '';
+              surfArea = 0.0;
+              currencyCode = '';
+              currencyName = '';
+              capital = '';
+              population = 0.0;
+              countryCode = '';
+              result = "Typo! Please check and try again.";
+              flagUrl = '';
+            });
+            progressDialog.dismiss();
+          }
         }
       } else {
         //http error
